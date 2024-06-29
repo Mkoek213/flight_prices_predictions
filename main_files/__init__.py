@@ -13,5 +13,3 @@ from sklearn.metrics import r2_score  # For calculating the R^2 score of the mod
 from sklearn.ensemble import RandomForestRegressor  # For implementing a random forest regressor model
 
 flight_data = pd.read_csv('flight_dataset.csv')
-print(flight_data.info())
-print(flight_data.head())
