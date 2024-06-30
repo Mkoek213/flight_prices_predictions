@@ -3,10 +3,12 @@ from main_files import plt
 from main_files import sns
 from main_files import np
 
-print(flight_data.info())
-print(flight_data.head()) #first few rows
-print(flight_data.describe(include='all')) #some info about data
-print(flight_data.isnull().sum()) #no nulls, we're good
+
+def print_data_info():
+    print(flight_data.info())
+    print(flight_data.head()) #first few rows
+    print(flight_data.describe(include='all')) #some info about data
+    print(flight_data.isnull().sum()) #no nulls, we're good
 
 def plot_distribution_info():
     flight_data_plot_copy = flight_data.copy()
@@ -91,7 +93,4 @@ def plot_category_data_distribution():
     plt.close()
 
 
-plot_distribution_info()
-plot_for_outliers()
-plot_correlation_heatmap()
-plot_category_data_distribution()
+
