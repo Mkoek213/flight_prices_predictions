@@ -71,6 +71,27 @@ def plot_correlation_heatmap():
     plt.savefig('plot_correlation_heatmap.png')
     plt.close()
 
+
+def plot_category_data_distribution():
+    flight_data_plot_copy = flight_data.copy()
+    category_columns = [column for column in flight_data_plot_copy.columns if
+                        flight_data_plot_copy[column].dtypes == 'O']
+    figure, ax = plt.subplots(3, 1, figsize=(12, 12))
+    ax = ax.flatten()
+
+    for i, col in enumerate(category_columns):
+        sns.countplot(x=col, data=flight_data_plot_copy, ax=ax[i])
+        ax[i].set_ylabel('Count')
+        ax[i].set_title(f'Distribution of {col}', fontsize=14, weight='bold')
+        ax[i].tick_params(axis='x', rotation=45, labelsize=10)
+        ax[i].set_xlabel(None)
+
+    plt.tight_layout()
+    plt.savefig('plot_category_data_distribution.png')
+    plt.close()
+
+
 plot_distribution_info()
 plot_for_outliers()
 plot_correlation_heatmap()
+plot_category_data_distribution()
