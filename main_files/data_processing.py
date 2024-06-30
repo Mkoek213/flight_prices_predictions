@@ -8,7 +8,7 @@ print(flight_data.head()) #first few rows
 print(flight_data.describe(include='all')) #some info about data
 print(flight_data.isnull().sum()) #no nulls, we're good
 
-def plot_flight_data():
+def plot_distribution_info():
     flight_data_plot_copy = flight_data.copy()
     # plot only columns which dtype is not 'Object'
     columns_to_plot = [column for column in flight_data_plot_copy.columns if
@@ -40,8 +40,26 @@ def plot_flight_data():
         ax[i].axis('off')
 
     plt.tight_layout()
-    plt.savefig('plot.png')
+    plt.savefig('plot_distribution.png')
+    plt.close()
+
+def plot_for_outliers():
+    flight_data_plot_copy = flight_data.copy()
+    columns_to_plot = [column for column in flight_data_plot_copy.columns if
+                       flight_data_plot_copy[column].dtypes != 'O' and column != 'Year']
+    figure, ax = plt.subplots(3, 4, figsize=(12, 9))
+    ax = ax.flatten()
+
+    for i, column in enumerate(columns_to_plot):
+        flight_data_plot_copy.boxplot(column, ax=ax[i])
+
+    for i in range(len(columns_to_plot), 12):
+        ax[i].axis('off')
+
+    plt.tight_layout()
+    plt.savefig('plot_outliers.png')
     plt.close()
 
 
-plot_flight_data()
+plot_distribution_info()
+plot_for_outliers()
