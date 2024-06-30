@@ -2,16 +2,25 @@ from main_files import flight_data
 from main_files import plt
 from main_files import sns
 from main_files import np
+from main_files import pd
+import io
+import sys
 
 
-def print_data_info():
-    print(flight_data.info())
-    print(flight_data.head()) #first few rows
-    print(flight_data.describe(include='all')) #some info about data
-    print(flight_data.isnull().sum()) #no nulls, we're good
+def print_data_info(database):
+    buffer = io.StringIO()
+    sys.stdout = buffer
+    database.info()
+    sys.stdout = sys.__stdout__
+    info_str = buffer.getvalue()
+    with open('data_info.txt', 'w') as f:
+        f.write(f"Parameters info:\n{info_str}\n")
+        f.write(f"Head rows:\n{database.head()}\n\n")
+        f.write(f"Data description:\n{database.describe(include='all')}\n\n")
+        f.write(f"Check for null values:\n{database.isnull().sum()}\n\n")
 
-def plot_distribution_info():
-    flight_data_plot_copy = flight_data.copy()
+def plot_distribution_info(database):
+    flight_data_plot_copy = database.copy()
     # plot only columns which dtype is not 'Object'
     columns_to_plot = [column for column in flight_data_plot_copy.columns if
                        flight_data_plot_copy[column].dtypes != 'O' and column != 'Year']
@@ -45,8 +54,8 @@ def plot_distribution_info():
     plt.savefig('plot_distribution.png')
     plt.close()
 
-def plot_for_outliers():
-    flight_data_plot_copy = flight_data.copy()
+def plot_for_outliers(database):
+    flight_data_plot_copy = database.copy()
     columns_to_plot = [column for column in flight_data_plot_copy.columns if
                        flight_data_plot_copy[column].dtypes != 'O' and column != 'Year']
     figure, ax = plt.subplots(3, 4, figsize=(12, 9))
@@ -62,8 +71,8 @@ def plot_for_outliers():
     plt.savefig('plot_outliers.png')
     plt.close()
 
-def plot_correlation_heatmap():
-    flight_data_plot_copy = flight_data.copy()
+def plot_correlation_heatmap(database):
+    flight_data_plot_copy = database.copy()
     columns_to_plot = [column for column in flight_data_plot_copy.columns if
                        flight_data_plot_copy[column].dtypes != 'O' and column != 'Year']
     colormap = plt.cm.viridis
@@ -74,8 +83,8 @@ def plot_correlation_heatmap():
     plt.close()
 
 
-def plot_category_data_distribution():
-    flight_data_plot_copy = flight_data.copy()
+def plot_category_data_distribution(database):
+    flight_data_plot_copy = database.copy()
     category_columns = [column for column in flight_data_plot_copy.columns if
                         flight_data_plot_copy[column].dtypes == 'O']
     figure, ax = plt.subplots(3, 1, figsize=(12, 12))
@@ -92,5 +101,32 @@ def plot_category_data_distribution():
     plt.savefig('plot_category_data_distribution.png')
     plt.close()
 
+def one_hot_encoding_category_data(database):
+    flight_data_processed = database.drop(columns=['Year'])
+
+    # One hot encoding 'Airline' parameter
+    value_counts_airline = flight_data_processed['Airline'].value_counts()
+    top_airlines = value_counts_airline.head(8).index.tolist()
+    flight_data_processed['Airline'] = flight_data_processed['Airline'].apply(
+        lambda x: x if x in top_airlines else 'Others')
+    df_encoded_airline = pd.get_dummies(flight_data_processed['Airline'], prefix='Airline').astype(int)
+    flight_data_processed = pd.concat([flight_data_processed, df_encoded_airline], axis=1)
+    flight_data_processed.drop('Airline', axis=1, inplace=True)
+
+    # One hot encoding 'Source' parameter
+    value_counts_source = flight_data_processed['Source'].value_counts()
+    df_encoded_source = pd.get_dummies(flight_data_processed['Source'], prefix='Source').astype(int)
+    flight_data_processed = pd.concat([flight_data_processed, df_encoded_source], axis=1)
+    flight_data_processed.drop('Source', axis=1, inplace=True)
+
+    # One hot encoding 'Destination' parameter
+    value_counts_destination = flight_data_processed['Destination'].value_counts()
+    df_encoded_destination = pd.get_dummies(flight_data_processed['Destination'], prefix='Destination').astype(int)
+    flight_data_processed = pd.concat([flight_data_processed, df_encoded_destination], axis=1)
+    flight_data_processed.drop('Destination', axis=1, inplace=True)
+
+    return flight_data_processed
 
 
+processed_data = one_hot_encoding_category_data(flight_data)
+print_data_info(processed_data)
