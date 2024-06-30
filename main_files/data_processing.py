@@ -60,6 +60,17 @@ def plot_for_outliers():
     plt.savefig('plot_outliers.png')
     plt.close()
 
+def plot_correlation_heatmap():
+    flight_data_plot_copy = flight_data.copy()
+    columns_to_plot = [column for column in flight_data_plot_copy.columns if
+                       flight_data_plot_copy[column].dtypes != 'O' and column != 'Year']
+    colormap = plt.cm.viridis
+    plt.figure(figsize=(12, 12))
+    plt.title('Correlation of Features', size=12)
+    ax = sns.heatmap(flight_data_plot_copy[columns_to_plot].corr(), cmap=colormap, annot=True, vmin=-1, vmax=1)
+    plt.savefig('plot_correlation_heatmap.png')
+    plt.close()
 
 plot_distribution_info()
 plot_for_outliers()
+plot_correlation_heatmap()
