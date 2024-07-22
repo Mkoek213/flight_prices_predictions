@@ -1,4 +1,5 @@
-from main_files import flight_data
+from main_files import train_test_split
+from main_files import StandardScaler
 from main_files import plt
 from main_files import sns
 from main_files import np
@@ -198,16 +199,22 @@ def categorize_day(day):
     else:
         return 'Invalid Hour'
 
+def split_scale_data(database, y_column):
+    X = database.drop(columns=[f'{y_column}'])
+    y = database[f'{y_column}'].values
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=1)
+    standard_scaler = StandardScaler()
+    X_train = standard_scaler.fit_transform(X_train)
+    X_test = standard_scaler.transform(X_test)
+    return X_train, X_test, y_train, y_test
 
-
-
-processed_data = one_hot_encoding_category_data(flight_data)
-# print_data_info(processed_data)
-# plot_for_outliers(flight_data)
-# plot_correlation_heatmap(flight_data)
-# plot_distribution_info(flight_data)
-# plot_category_data_distribution(flight_data)
-processed_data2 = process_time_data(processed_data)
-print_data_info(processed_data2)
-
-print(len(processed_data2.columns))
+# processed_data = one_hot_encoding_category_data(flight_data)
+# # print_data_info(processed_data)
+# # plot_for_outliers(flight_data)
+# # plot_correlation_heatmap(flight_data)
+# # plot_distribution_info(flight_data)
+# # plot_category_data_distribution(flight_data)
+# processed_data2 = process_time_data(processed_data)
+# print_data_info(processed_data2)
+#
+# print(len(processed_data2.columns))
