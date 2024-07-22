@@ -14,7 +14,7 @@ def print_data_info(database):
     database.info()
     sys.stdout = sys.__stdout__
     info_str = buffer.getvalue()
-    with open('data_info.txt', 'w') as f:
+    with open('data_info_and_plots/data_info.txt', 'w') as f:
         f.write(f"Parameters info:\n{info_str}\n")
         f.write(f"Head rows:\n{database.head()}\n\n")
         f.write(f"Data description:\n{database.describe(include='all')}\n\n")
@@ -52,7 +52,7 @@ def plot_distribution_info(database):
         ax[i].axis('off')
 
     plt.tight_layout()
-    plt.savefig('plot_distribution.png')
+    plt.savefig('data_info_and_plots/plot_distribution.png')
     plt.close()
 
 def plot_for_outliers(database):
@@ -69,7 +69,7 @@ def plot_for_outliers(database):
         ax[i].axis('off')
 
     plt.tight_layout()
-    plt.savefig('plot_outliers.png')
+    plt.savefig('data_info_and_plots/plot_outliers.png')
     plt.close()
 
 def plot_correlation_heatmap(database):
@@ -80,7 +80,7 @@ def plot_correlation_heatmap(database):
     plt.figure(figsize=(12, 12))
     plt.title('Correlation of Features', size=12)
     ax = sns.heatmap(flight_data_plot_copy[columns_to_plot].corr(), cmap=colormap, annot=True, vmin=-1, vmax=1)
-    plt.savefig('plot_correlation_heatmap.png')
+    plt.savefig('data_info_and_plots/plot_correlation_heatmap.png')
     plt.close()
 
 
@@ -99,7 +99,7 @@ def plot_category_data_distribution(database):
         ax[i].set_xlabel(None)
 
     plt.tight_layout()
-    plt.savefig('plot_category_data_distribution.png')
+    plt.savefig('data_info_and_plots/plot_category_data_distribution.png')
     plt.close()
 
 def one_hot_encoding_category_data(database):
