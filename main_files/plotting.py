@@ -85,7 +85,7 @@ def plot_learning_curve_for_model(model, X_train, y_train):
     # Close the plot to free up memory
     plt.close()
 
-def plot_feature_importance_for_model(model, X_train, y_train):
+def plot_feature_importance_for_model(model, X_train):
 
     # Generate the feature importance plot for the given model using scikitplot
     skplt.estimators.plot_feature_importances(model, feature_names = X_train.columns , x_tick_rotation=90)
