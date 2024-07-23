@@ -1,3 +1,4 @@
+from main_files import PartialDependenceDisplay
 from main_files import plt
 from main_files import skplt
 
@@ -102,3 +103,26 @@ def plot_feature_importance_for_model(model, X_train, y_train):
     plt.close()
 
 
+def plot_partial_dependence(model, X_train):
+
+    # Determine the number of features
+    num_features = len(X_train.columns)
+
+    # Create a figure with a vertical layout for each subplot
+    fig, ax = plt.subplots(nrows=num_features, ncols=1, figsize=(12, 10 * num_features))
+
+    # Plot Partial Dependence using the from_estimator method
+    display = PartialDependenceDisplay.from_estimator(
+        model,
+        X_train,
+        features=range(X_train.shape[1]),
+        feature_names=X_train.columns,
+        ax=ax
+    )
+
+    # Adjust the layout and title for the figure
+    plt.tight_layout()
+    plt.suptitle('Partial Dependence Plots', y=1.02)
+
+    # Save the plot to a file
+    plt.savefig('data_info_and_plots/plot_partial_dependence.png')
