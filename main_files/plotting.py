@@ -84,4 +84,21 @@ def plot_learning_curve_for_model(model, X_train, y_train):
     # Close the plot to free up memory
     plt.close()
 
+def plot_feature_importance_for_model(model, X_train, y_train):
+
+    # Generate the feature importance plot for the given model using scikitplot
+    skplt.estimators.plot_feature_importances(model, feature_names = X_train.columns , x_tick_rotation=90)
+
+    # Set the title of the feature importance plot
+    plt.title('Feature Importance')
+
+    # Adjust layout to prevent overlap of subplots
+    plt.tight_layout()
+
+    # Save the figure to a file
+    plt.savefig('data_info_and_plots/plot_feature_importance.png')
+
+    # Close the plot to free up memory
+    plt.close()
+
 
