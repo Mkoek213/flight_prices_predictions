@@ -67,6 +67,8 @@ def train_linear_regression(X_train, X_test, y_train, y_test):
     joblib.dump(model, model_path)
     print(f"Model saved to {model_path}")
 
+    return model
+
 def train_xgbregressor(X_train, X_test, y_train, y_test):
     # Define parameter distributions for RandomizedSearchCV
     parameters = {
@@ -129,6 +131,8 @@ def train_xgbregressor(X_train, X_test, y_train, y_test):
     model_path = 'models/xgbregressor_model.joblib'
     joblib.dump(model, model_path)
     print(f"Model saved to {model_path}")
+
+    return model
 
 def train_tree_regressor(X_train, X_test, y_train, y_test):
     # Define parameter distributions for RandomizedSearchCV
@@ -197,3 +201,5 @@ def train_tree_regressor(X_train, X_test, y_train, y_test):
     model_path = 'models/tree_regressor_model.joblib'
     joblib.dump(model, model_path)
     print(f"Model saved to {model_path}")
+
+    return model
