@@ -63,7 +63,7 @@ def train_linear_regression(X_train, X_test, y_train, y_test):
     print(f"Test R^2: {test_r2}")
 
     # Save the trained model to a file
-    model_path = 'main_files/models/linear_regression_model.joblib'
+    model_path = 'models/linear_regression_model.joblib'
     joblib.dump(model, model_path)
     print(f"Model saved to {model_path}")
 
@@ -128,7 +128,7 @@ def train_xgbregressor(X_train, X_test, y_train, y_test):
     print(f"Test R^2: {test_r2}")
 
     # Save the trained model to a file
-    model_path = 'main_files/models/xgbregressor_model.joblib'
+    model_path = 'models/xgbregressor_model.joblib'
     joblib.dump(model, model_path)
     print(f"Model saved to {model_path}")
 
@@ -198,7 +198,7 @@ def train_tree_regressor(X_train, X_test, y_train, y_test):
     print(f"Test R^2: {test_r2}")
 
     # Save the trained model to a file
-    model_path = 'main_files/models/tree_regressor_model.joblib'
+    model_path = 'models/tree_regressor_model.joblib'
     joblib.dump(model, model_path)
     print(f"Model saved to {model_path}")
 
