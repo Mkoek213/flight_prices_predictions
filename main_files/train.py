@@ -63,7 +63,7 @@ def train_linear_regression(X_train, X_test, y_train, y_test):
     print(f"Test R^2: {test_r2}")
 
     # Save the trained model to a file
-    model_path = 'models/linear_regression_model.joblib'
+    model_path = 'main_files/models/linear_regression_model.joblib'
     joblib.dump(model, model_path)
     print(f"Model saved to {model_path}")
 
@@ -72,9 +72,9 @@ def train_linear_regression(X_train, X_test, y_train, y_test):
 def train_xgbregressor(X_train, X_test, y_train, y_test):
     # Define parameter distributions for RandomizedSearchCV
     parameters = {
-        'learning_rate': np.linspace(0.0001, 0.2, 100),
+        'learning_rate': sp_randFloat(0.0001, 0.2, 100),
         'subsample': sp_randFloat(0.8, 0.2),
-        'n_estimators': np.arange(100, 2001, 50),
+        'n_estimators': sp_randInt(100, 2001, 50),
         'max_depth': [2, 3, 4, 5, 6, 7],
         'min_child_weight': [1,2,3,4]
     }
@@ -128,7 +128,7 @@ def train_xgbregressor(X_train, X_test, y_train, y_test):
     print(f"Test R^2: {test_r2}")
 
     # Save the trained model to a file
-    model_path = 'models/xgbregressor_model.joblib'
+    model_path = 'main_files/models/xgbregressor_model.joblib'
     joblib.dump(model, model_path)
     print(f"Model saved to {model_path}")
 
@@ -140,7 +140,7 @@ def train_tree_regressor(X_train, X_test, y_train, y_test):
         'splitter': ['random'],
         'max_depth': sp_randInt(10, 25),
         'min_samples_split': sp_randInt(15, 50),
-        'max_features': np.linspace(800, 1500, 25).astype(int),
+        'max_features': sp_randFloat(800, 1500, 25).astype(int),
         'criterion': ['friedman_mse'],
         'min_samples_leaf': sp_randInt(1, 5),
         'min_weight_fraction_leaf': sp_randFloat(0, 0.001),
@@ -198,7 +198,7 @@ def train_tree_regressor(X_train, X_test, y_train, y_test):
     print(f"Test R^2: {test_r2}")
 
     # Save the trained model to a file
-    model_path = 'models/tree_regressor_model.joblib'
+    model_path = 'main_files/models/tree_regressor_model.joblib'
     joblib.dump(model, model_path)
     print(f"Model saved to {model_path}")
 
