@@ -200,13 +200,32 @@ def categorize_day(day):
         return 'Invalid Hour'
 
 def split_scale_data(database, y_column):
+
+    # Drop the target column from the dataset to get the feature matrix X
     X = database.drop(columns=[f'{y_column}'])
+
+    # Extract the target column to get the response vector y
     y = database[f'{y_column}'].values
+
+    # Track the column names of X
+    column_names = X.columns
+
+    # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=1)
+
+    # Initialize the StandardScaler
     standard_scaler = StandardScaler()
-    X_train = standard_scaler.fit_transform(X_train)
-    X_test = standard_scaler.transform(X_test)
-    return X_train, X_test, y_train, y_test
+
+    # Fit the scaler on the training data and transform both training and testing data
+    X_train_scaled = standard_scaler.fit_transform(X_train)
+    X_test_scaled = standard_scaler.transform(X_test)
+
+    # Convert the scaled data back to DataFrames with the original column names
+    X_train_df = pd.DataFrame(X_train_scaled, columns=column_names)
+    X_test_df = pd.DataFrame(X_test_scaled, columns=column_names)
+
+
+    return X_train_df, X_test_df, y_train, y_test
 
 # processed_data = one_hot_encoding_category_data(flight_data)
 # # print_data_info(processed_data)
