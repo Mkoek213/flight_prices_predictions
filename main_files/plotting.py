@@ -1,4 +1,5 @@
 from main_files import plt
+from main_files import skplt
 
 
 def plot_residuals(model, X_train, X_test, y_train, y_test):
@@ -64,3 +65,23 @@ def plot_residuals(model, X_train, X_test, y_train, y_test):
 
     # Close the plot to free up memory
     plt.close()
+
+
+def plot_learning_curve_for_model(model, X_train, y_train):
+
+    # Generate the learning curve plot for the given model using scikitplot
+    skplt.estimators.plot_learning_curve(model, X_train, y_train)
+
+    # Set the title of the learning curve plot
+    plt.title('Training Learning Curve')
+
+    # Adjust layout to prevent overlap of subplots
+    plt.tight_layout()
+
+    # Save the figure to a file
+    plt.savefig('data_info_and_plots/plot_learning_curve.png')
+
+    # Close the plot to free up memory
+    plt.close()
+
+
