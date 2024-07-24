@@ -52,64 +52,126 @@ def test_split_scale_data(setup_data):
     assert X_train_scaled.shape[0] == X_train.shape[0]
     assert X_test_scaled.shape[0] == X_test.shape[0]
 
+
 def test_train_linear_regression(setup_data):
     flight_data, flight_data_processed, flight_data_processed2, X_train, X_test, y_train, y_test = setup_data
-    # Create a temporary directory
-    # Run the function that saves the model
-    model = train_linear_regression(X_train, X_test, y_train, y_test)
 
-    assert model is not None
-    assert isinstance(model, LinearRegression)  # Check if the returned object is a LinearRegression model
+    with tempfile.TemporaryDirectory() as tempdir:
+        model_path = os.path.join(tempdir, "linear_regression_model.joblib")
+
+        model = train_linear_regression(X_train, X_test, y_train, y_test, model_path)
+
+        assert model is not None
+        assert isinstance(model, LinearRegression)  # Check if the returned object is a LinearRegression model
+
+        # Verify the model was saved
+        assert os.path.isfile(model_path)
+
+        # Load the model to ensure it was saved correctly
+        loaded_model = joblib.load(model_path)
+        assert loaded_model is not None
+        assert isinstance(loaded_model, LinearRegression)
+
 
 
 def test_train_xgbregressor(setup_data):
     flight_data, flight_data_processed, flight_data_processed2, X_train, X_test, y_train, y_test = setup_data
-    # Create a temporary directory
-    # Run the function that saves the model
-    model = train_xgbregressor(X_train, X_test, y_train, y_test)
 
-    assert model is not None
-    assert isinstance(model, XGBRegressor)  # Check if the returned object is a LinearRegression model
+    with tempfile.TemporaryDirectory() as tempdir:
+        model_path = os.path.join(tempdir, "xgbregressor_model.joblib")
+
+        model = train_xgbregressor(X_train, X_test, y_train, y_test, model_path)
+
+        assert model is not None
+        assert isinstance(model, XGBRegressor)  # Check if the returned object is a LinearRegression model
+
+        # Verify the model was saved
+        assert os.path.isfile(model_path)
+
+        # Load the model to ensure it was saved correctly
+        loaded_model = joblib.load(model_path)
+        assert loaded_model is not None
+        assert isinstance(loaded_model, XGBRegressor)
 
 
 
 def test_train_tree_regressor(setup_data):
     flight_data, flight_data_processed, flight_data_processed2, X_train, X_test, y_train, y_test = setup_data
-    # Create a temporary directory
-    # Run the function that saves the model
-    model = train_tree_regressor(X_train, X_test, y_train, y_test)
 
-    assert model is not None
-    assert isinstance(model, DecisionTreeRegressor)  # Check if the returned object is a LinearRegression model
+    with tempfile.TemporaryDirectory() as tempdir:
+        model_path = os.path.join(tempdir, "tree_regressor_model.joblib")
+
+        model = train_tree_regressor(X_train, X_test, y_train, y_test, model_path)
+
+        assert model is not None
+        assert isinstance(model, DecisionTreeRegressor)  # Check if the returned object is a LinearRegression model
+
+        # Verify the model was saved
+        assert os.path.isfile(model_path)
+
+        # Load the model to ensure it was saved correctly
+        loaded_model = joblib.load(model_path)
+        assert loaded_model is not None
+        assert isinstance(loaded_model, DecisionTreeRegressor)
+
 
 
 
 def test_plot_residuals(setup_data):
     flight_data, flight_data_processed, flight_data_processed2, X_train, X_test, y_train, y_test = setup_data
-    # Test if plot_residuals function runs without errors
-    model = train_linear_regression(X_train, X_test, y_train, y_test)
-    try:
-        plot_residuals(model, X_train, X_test, y_train, y_test)
-    except Exception as e:
-        pytest.fail(f'plot_residuals raised an exception: {e}')
+
+    with tempfile.TemporaryDirectory() as tempdir_model, tempfile.TemporaryDirectory() as tempdir_plot:
+        model_path = os.path.join(tempdir_model, "linear_regression_model.joblib")
+
+        model = train_linear_regression(X_train, X_test, y_train, y_test, model_path)
+
+        # Define the plot path within the second temporary directory
+        plot_path = os.path.join(tempdir_plot, "residuals_plot.png")
+        try:
+            plot_residuals(model, X_train, X_test, y_train, y_test, plot_path)
+        except Exception as e:
+            pytest.fail(f'plot_residuals raised an exception: {e}')
+
+        # Check if the plot was created
+        assert os.path.isfile(plot_path)
+
+
 
 
 def test_plot_learning_curve_for_model(setup_data):
     flight_data, flight_data_processed, flight_data_processed2, X_train, X_test, y_train, y_test = setup_data
-    # Test if plot_residuals function runs without errors
-    model = train_linear_regression(X_train, X_test, y_train, y_test)
-    try:
-        plot_learning_curve_for_model(model, X_train, y_train)
-    except Exception as e:
-        pytest.fail(f'plot_learning_curve_for_model raised an exception: {e}')
+
+    with tempfile.TemporaryDirectory() as tempdir_model, tempfile.TemporaryDirectory() as tempdir_plot:
+        model_path = os.path.join(tempdir_model, "linear_regression_model.joblib")
+
+        model = train_linear_regression(X_train, X_test, y_train, y_test, model_path)
+
+        # Define the plot path within the second temporary directory
+        plot_path = os.path.join(tempdir_plot, "learning_curve.png")
+        try:
+            plot_learning_curve_for_model(model, X_train, y_train, plot_path)
+        except Exception as e:
+            pytest.fail(f'plot_learning_curve raised an exception: {e}')
+
+        # Check if the plot was created
+        assert os.path.isfile(plot_path)
 
 
 def test_plot_partial_dependence(setup_data):
     flight_data, flight_data_processed, flight_data_processed2, X_train, X_test, y_train, y_test = setup_data
-    # Test if plot_residuals function runs without errors
-    model = train_linear_regression(X_train, X_test, y_train, y_test)
-    try:
-        plot_partial_dependence(model, X_train)
-    except Exception as e:
-        pytest.fail(f'plot_partial_dependence raised an exception: {e}')
+
+    with tempfile.TemporaryDirectory() as tempdir_model, tempfile.TemporaryDirectory() as tempdir_plot:
+        model_path = os.path.join(tempdir_model, "linear_regression_model.joblib")
+
+        model = train_linear_regression(X_train, X_test, y_train, y_test, model_path)
+
+        # Define the plot path within the second temporary directory
+        plot_path = os.path.join(tempdir_plot, "partial_dependence.png")
+        try:
+            plot_partial_dependence(model, X_train, plot_path)
+        except Exception as e:
+            pytest.fail(f'plot_partial_dependence raised an exception: {e}')
+
+        # Check if the plot was created
+        assert os.path.isfile(plot_path)
 
