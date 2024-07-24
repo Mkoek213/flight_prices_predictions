@@ -11,7 +11,7 @@ from main_files import RandomizedSearchCV
 from main_files import time
 from main_files import joblib
 
-def train_linear_regression(X_train, X_test, y_train, y_test):
+def train_linear_regression(X_train, X_test, y_train, y_test, path = "models/linear_regression_model.joblib"):
     # Define parameter grid for GridSearchCV
     parameters = {
         'fit_intercept': [True, False]
@@ -63,13 +63,12 @@ def train_linear_regression(X_train, X_test, y_train, y_test):
     print(f"Test R^2: {test_r2}")
 
     # Save the trained model to a file
-    model_path = 'models/linear_regression_model.joblib'
-    joblib.dump(model, model_path)
-    print(f"Model saved to {model_path}")
+    joblib.dump(model, path)
+    print(f"Model saved to {path}")
 
     return model
 
-def train_xgbregressor(X_train, X_test, y_train, y_test):
+def train_xgbregressor(X_train, X_test, y_train, y_test, path = "models/xgbregressor_model.joblib"):
     # Define parameter distributions for RandomizedSearchCV
     parameters = {
         'learning_rate': np.linspace(0.0001, 0.2, 100),
@@ -128,13 +127,12 @@ def train_xgbregressor(X_train, X_test, y_train, y_test):
     print(f"Test R^2: {test_r2}")
 
     # Save the trained model to a file
-    model_path = 'models/xgbregressor_model.joblib'
-    joblib.dump(model, model_path)
-    print(f"Model saved to {model_path}")
+    joblib.dump(model, path)
+    print(f"Model saved to {path}")
 
     return model
 
-def train_tree_regressor(X_train, X_test, y_train, y_test):
+def train_tree_regressor(X_train, X_test, y_train, y_test, path = "models/tree_regressor_model.joblib"):
     # Define parameter distributions for RandomizedSearchCV
     parameters = {
         'splitter': ['random'],
@@ -198,8 +196,7 @@ def train_tree_regressor(X_train, X_test, y_train, y_test):
     print(f"Test R^2: {test_r2}")
 
     # Save the trained model to a file
-    model_path = 'models/tree_regressor_model.joblib'
-    joblib.dump(model, model_path)
-    print(f"Model saved to {model_path}")
+    joblib.dump(model, path)
+    print(f"Model saved to {path}")
 
     return model
