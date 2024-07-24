@@ -118,7 +118,6 @@ To install this project, use [Poetry](https://python-poetry.org/). Follow these 
 ## Plotting Functions
 
 ### `print_data_info(database)`
-![print_data_info screenshot](screenshots/print_data_info.png)
 **Description**: Prints and saves information about the dataset, including data types, head rows, description, and null values.
 
 **Parameters**:
@@ -127,7 +126,7 @@ To install this project, use [Poetry](https://python-poetry.org/). Follow these 
 ---
 
 ### `plot_distribution_info(database)`
-![plot_distribution_info screenshot](screenshots/plot_distribution_info.png)
+![plot_distribution_info screenshot](screenshots/plot_distribution.png)
 **Description**: Plots and saves the distribution of numerical features in the dataset.
 
 **Parameters**:
@@ -136,7 +135,7 @@ To install this project, use [Poetry](https://python-poetry.org/). Follow these 
 ---
 
 ### `plot_for_outliers(database)`
-![plot_for_outliers screenshot](screenshots/plot_for_outliers.png)
+![plot_for_outliers screenshot](screenshots/plot_outliers.png)
 **Description**: Plots and saves boxplots for numerical features to identify outliers.
 
 **Parameters**:
@@ -244,7 +243,6 @@ To install this project, use [Poetry](https://python-poetry.org/). Follow these 
 ---
 
 ### `plot_partial_dependence(model, X_train, path="data_info_and_plots/plot_partial_dependence.png")`
-![plot_partial_dependence screenshot](screenshots/plot_partial_dependence.png)
 **Description**: Plots and saves the partial dependence plots for the model.
 
 **Parameters**:
