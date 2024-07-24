@@ -3,7 +3,7 @@ from main_files import plt
 from main_files import skplt
 
 
-def plot_residuals(model, X_train, X_test, y_train, y_test):
+def plot_residuals(model, X_train, X_test, y_train, y_test, path = "data_info_and_plots/plot_residuals.png"):
 
     # Predict target values using the trained model
     y_train_pred = model.predict(X_train)
@@ -62,13 +62,13 @@ def plot_residuals(model, X_train, X_test, y_train, y_test):
     plt.tight_layout()
 
     # Save the figure to a file
-    plt.savefig('data_info_and_plots/plot_residuals.png')
+    plt.savefig(path)
 
     # Close the plot to free up memory
     plt.close()
 
 
-def plot_learning_curve_for_model(model, X_train, y_train):
+def plot_learning_curve_for_model(model, X_train, y_train, path = "data_info_and_plots/plot_learning_curve.png"):
 
     # Generate the learning curve plot for the given model using scikitplot
     skplt.estimators.plot_learning_curve(model, X_train, y_train)
@@ -80,12 +80,12 @@ def plot_learning_curve_for_model(model, X_train, y_train):
     plt.tight_layout()
 
     # Save the figure to a file
-    plt.savefig('data_info_and_plots/plot_learning_curve.png')
+    plt.savefig(path)
 
     # Close the plot to free up memory
     plt.close()
 
-def plot_feature_importance_for_model(model, X_train):
+def plot_feature_importance_for_model(model, X_train, path = "data_info_and_plots/plot_feature_importance.png"):
 
     # Generate the feature importance plot for the given model using scikitplot
     skplt.estimators.plot_feature_importances(model, feature_names = X_train.columns , x_tick_rotation=90)
@@ -97,13 +97,13 @@ def plot_feature_importance_for_model(model, X_train):
     plt.tight_layout()
 
     # Save the figure to a file
-    plt.savefig('data_info_and_plots/plot_feature_importance.png')
+    plt.savefig(path)
 
     # Close the plot to free up memory
     plt.close()
 
 
-def plot_partial_dependence(model, X_train):
+def plot_partial_dependence(model, X_train, path = "data_info_and_plots/plot_partial_dependence.png"):
 
     # Determine the number of features
     num_features = len(X_train.columns)
@@ -125,4 +125,7 @@ def plot_partial_dependence(model, X_train):
     plt.suptitle('Partial Dependence Plots', y=1.02)
 
     # Save the plot to a file
-    plt.savefig('data_info_and_plots/plot_partial_dependence.png')
+    plt.savefig(path)
+
+    # Close the plot to free up memory
+    plt.close()
